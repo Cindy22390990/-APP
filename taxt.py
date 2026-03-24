@@ -31,3 +31,34 @@ class FinanceManager:
     def show_all(self):
         for r in self.records:
             print(r)
+import sqlite3
+
+# 1. 連接資料庫（如果檔案不存在，會自動建立）
+conn = sqlite3.connect('finance.db')
+
+# 2. 建立「游標」，它是你在資料庫裡的「手」，負責執行指令
+cursor = conn.cursor()
+
+# 3. 建立資料表邏輯 (CREATE TABLE)
+# 如果表還沒建立，就建立一個名為 records 的表
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS records (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        amount REAL NOT NULL,
+        category TEXT NOT NULL,
+        date TEXT NOT NULL
+    )
+''')
+
+# 4. 寫入資料邏輯 (INSERT)
+def save_to_db(amount, category, date):
+    # 使用 ? 作為佔位符是為了防止「SQL 注入攻擊」（安全性考慮）
+    cursor.execute("INSERT INTO records (amount, category, date) VALUES (?, ?, ?)", 
+                   (amount, category, date))
+    
+    # 重要：一定要 commit（提交），否則資料只會在暫存區，不會真的寫入硬碟
+    conn.commit()
+
+# 5. 關閉連接
+# 程式結束前要記得關閉，釋放電腦資源
+# conn.close()
