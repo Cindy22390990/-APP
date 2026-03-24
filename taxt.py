@@ -1,12 +1,15 @@
 from datetime import datetime
+
 class Transaction:
-    def __init__(self,amount,category,note==''):
-        self.amount = amount        #金額
-        self.category = category    #分類(食、衣、住、行)
-        self.note = note            #備註
+    def __init__(self, amount, category, note=""):
+        self.amount = amount        # 金額
+        self.category = category    # 分類 (食、衣、住、行)
+        self.note = note            # 備註
         self.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     def __str__(self):
-        return f'[{self.date}]{self.category}: ${self.amount}({self.note})"
+        return f"[{self.date}] {self.category}: ${self.amount} ({self.note})"
+    
 class FinanceManager:
     def __init__(self):
         self.records = []  # 暫時存放在記憶體中，進階可改用 SQLite 資料庫
