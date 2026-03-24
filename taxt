@@ -1,0 +1,8 @@
+data class Transaction(
+    val id: Int = 0,
+    val amount: Double,
+    val type: Int, // 0: 支出, 1: 收入
+    val category: String,
+    val date: Long,
+    val note: String
+)
